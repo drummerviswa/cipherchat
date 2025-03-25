@@ -1,50 +1,83 @@
-# Welcome to your Expo app 👋
+# CipherChat - End-to-End Encrypted Messenger
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 🔒 Overview
+CipherChat provides a **fully encrypted chat experience** using AES-256 encryption, ensuring privacy and security for user conversations. Messages are **end-to-end encrypted**, stored securely on the device, and can be **self-destructed** for extra protection.
 
-## Get started
+## 📌 Features
+✅ **End-to-End Encryption** using AES-256  
+✅ **Local Message Encryption** (no plaintext storage)  
+✅ **Self-Destructing Messages** for extra privacy  
+✅ **Biometric Authentication** (FaceID / TouchID)  
+✅ **Steganography Support** (hide messages in images)  
+✅ **Peer-to-Peer Messaging** (optional, without servers)  
 
-1. Install dependencies
+## 🛠 Tech Stack
+- **Frontend:** React Native (Expo or CLI)
+- **Encryption:** `crypto-js`, `react-native-crypto`
+- **Backend:** Firebase or Node.js + Express
+- **Database:** Firebase Firestore / SQLite
+- **Authentication:** Firebase Auth / JWT-based auth
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+## 🚀 Getting Started
+### 1️⃣ Clone the Repository
+```sh
+git clone https://github.com/drummerviswa/cipherchat.git
+cd cipherchat
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2️⃣ Install Dependencies
+```sh
+yarn install   # or npm install
+```
 
-## Learn more
+### 3️⃣ Set Up Firebase (if using Firebase Backend)
+- Create a Firebase project.
+- Enable Firestore Database.
+- Enable Firebase Authentication (Google, Email/Password).
+- Copy Firebase Config into `config/firebase.js`.
 
-To learn more about developing your project with Expo, look at the following resources:
+### 4️⃣ Run the App
+```sh
+expo start   # If using Expo
+npx react-native run-android   # For Android
+npx react-native run-ios       # For iOS
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 🔐 Security Implementation
+### AES-256 Encryption for Messages
+```js
+import CryptoJS from 'crypto-js';
 
-## Join the community
+const encryptMessage = (message, key) => {
+  return CryptoJS.AES.encrypt(message, key).toString();
+};
 
-Join our community of developers creating universal apps.
+const decryptMessage = (encryptedMessage, key) => {
+  const bytes = CryptoJS.AES.decrypt(encryptedMessage, key);
+  return bytes.toString(CryptoJS.enc.Utf8);
+};
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### Firebase Firestore Security Rules (Example)
+```json
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /chats/{chatId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+```
+
+## 🚀 Future Enhancements
+🔹 Implement **decentralized messaging (P2P, WebRTC)**  
+🔹 Support **multi-device sync with encrypted backups**  
+🔹 AI-based **phishing & spam detection for messages**  
+🔹 QR-code based **key exchange** for secure chats  
+
+## 🤝 Contributing
+Feel free to fork, open issues, or submit pull requests to enhance this project! 🎉
+
+## 📜 License
+MIT License © 2025 Viswanathan P / drummerviswa
